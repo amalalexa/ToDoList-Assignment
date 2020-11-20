@@ -19,11 +19,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todolist.constants.SecurityConstants;
-import com.todolist.model.User;
+
 
 
 
@@ -38,7 +39,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
-            User applicationUser = new ObjectMapper().readValue(req.getInputStream(), User.class);
+            com.todolist.model.User applicationUser = new ObjectMapper().readValue(req.getInputStream(), com.todolist.model.User.class);
             System.out.println(applicationUser);
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(applicationUser.getUserName(),
@@ -55,8 +56,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
         Date exp = new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME);
         Key key = Keys.hmacShaKeyFor(SecurityConstants.KEY.getBytes());
-        Claims claims = Jwts.claims().setSubject(((User) auth.getPrincipal()).getUserName());
-        String token = Jwts.builder().setClaims(claims).signWith(key, SignatureAlgorithm.HS512).setExpiration(exp).compact();
+        Claims claims = Jwts.claims().setSubject(((User) auth.getPrincipal()).getUsername());
+        String token = Jwts.builder().setClaims(claims).signWith(key, SignatureAlgorithm.HS256).setExpiration(exp).compact();
         res.addHeader("token", token);
 
 

@@ -12,7 +12,7 @@ import com.todolist.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, String>, ParentRepository {
 	
-	@Query(value="SELECT t.task_id FROM task t", nativeQuery=true)
+	@Query(value="SELECT u.user_id FROM user u", nativeQuery=true)
 	List<String> findAllIds();
 	
 	@Query(value="SELECT count(1) FROM user u where u.user_id = :userId", nativeQuery=true)
