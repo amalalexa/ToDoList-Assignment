@@ -16,7 +16,10 @@ public interface UserRepository extends JpaRepository<User, String>, ParentRepos
 	List<String> findAllIds();
 	
 	@Query(value="SELECT count(1) FROM user u where u.user_id = :userId", nativeQuery=true)
-	int checkUserExsists(@Param("userId") String userId);
+	int checkUserExsists(@Param("userId") int userId);
+	
+	@Query(value="SELECT count(1) FROM user u where u.user_name = :username", nativeQuery=true)
+	int checkUserNameExsists(@Param("username") String userName);
 	
 	@Query(value="SELECT * from user u where u.user_name = :username", nativeQuery=true)
 	User getUserName(@Param("username") String userName);

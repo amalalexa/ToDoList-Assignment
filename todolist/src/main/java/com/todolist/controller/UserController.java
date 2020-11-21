@@ -32,9 +32,14 @@ public class UserController {
 			return ResponseEntity.status(500).body(e.getMessage());
 		}
 	}
-	/*@GetMapping("/login")
+	@PostMapping("/login")
 	public ResponseEntity<String> loggingInUser(){
 		
-		//return ResponseEntity.ok().body();
-	}*/
+		try {
+			return ResponseEntity.ok().body("User Logged in Successfully");
+		}catch(Exception e) {
+			return ResponseEntity.status(500).body(e.getMessage());
+		}
+		
+	}
 }

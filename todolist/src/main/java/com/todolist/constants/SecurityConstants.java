@@ -3,7 +3,6 @@ package com.todolist.constants;
 public class SecurityConstants {
 	
 	    public static final String SIGN_UP_URL = "/api/user/signup";
-	    public static final String LOG_IN_URL = "/api/user/login";
 	    public static final String DATABASE_URL = "/h2/**";
 	    public static final String KEY = "q3t6w9z$C&F)J@NcQfTjWnZr4u7x!A%D*G-KaPdSgUkXp2s5v8y/B?E(H+MbQeTh";
 	    public static final String HEADER_NAME = "Authorization";

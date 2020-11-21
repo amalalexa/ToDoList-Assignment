@@ -9,9 +9,8 @@ import lombok.Setter;
 @Setter
 public class TaskDetailsView {
 
-	private String userId;
 	private String taskDescription;
-	private String taskId;
+	private int taskId;
 	//private Date dueDate;
 	
 }

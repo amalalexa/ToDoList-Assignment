@@ -24,6 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todolist.constants.SecurityConstants;
+import com.todolist.view.LoginDetailsView;
 
 
 
@@ -39,8 +40,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
-            com.todolist.model.User applicationUser = new ObjectMapper().readValue(req.getInputStream(), com.todolist.model.User.class);
-            System.out.println(applicationUser);
+            LoginDetailsView applicationUser = new ObjectMapper().readValue(req.getInputStream(), LoginDetailsView.class);
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(applicationUser.getUserName(),
                             applicationUser.getPassword(), new ArrayList<>())

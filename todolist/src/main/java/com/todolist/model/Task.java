@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -21,15 +22,12 @@ import lombok.Setter;
 public class Task {
 
 	@Id
-	@GeneratedValue(generator = "taskId-generator")
-	@GenericGenerator(name = "taskId-generator", 
-					  parameters = @Parameter(name = "prefix", value = "T"), 
-					  strategy = "com.todolist.model.GenerateId")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="task_id")
-	private String taskId;
+	private int taskId;
 	
 	@Column(name="user_id")
-	private String userId;
+	private int userId;
 	
 	@Column(name="last_update_date")
 	private Date lastUpdateDate;

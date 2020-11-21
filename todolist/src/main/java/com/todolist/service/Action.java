@@ -1,13 +1,10 @@
 package com.todolist.service;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.todolist.exception.UserIdException;
 import com.todolist.model.Task;
 import com.todolist.repository.TaskRepository;
 import com.todolist.repository.UserRepository;
@@ -21,28 +18,31 @@ public class Action {
     
     @Autowired
     private TaskRepository taskRepository;
+    
+    @Autowired
+    private UserIdRetrievalService userIdRetrievalService;
 
 	@SuppressWarnings("deprecation")
 	public String add(TaskDetailsView taskDetailsView) {
 		
 		try {
 			
-			// to check if the User(userId) exsists or not
-			if(userRepository.checkUserExsists(taskDetailsView.getUserId())==0)
-				throw new UserIdException("User Doesn't Exsists !!!");
-			
 			//creating a newTaskObject
 			Task newTaskObject=new Task();
 			
-			//copying data member values to Task object
-			BeanUtils.copyProperties(taskDetailsView, newTaskObject);
-			
-			//setting values to newTaskObject
+			//setting check=false initially
 			newTaskObject.setTaskCheck(false);
 			
+			//setting task description
+			newTaskObject.setTaskDescription(taskDetailsView.getTaskDescription());
+			
+			
+			//setting date to today's date
 			Date today=new Date();
 			newTaskObject.setLastUpdateDate(today);
 			
+			//getting userID from token(JWT) userIdRetrievalService.Getloggedinuserdetails().getUserId()
+			newTaskObject.setUserId(0);
 			//if(taskDetailsView.getDueDate().compareTo(today)>=0)
 			//	throw new DateException("Due Date can't be less than Today's Date !!");
 			
@@ -51,36 +51,30 @@ public class Action {
 			return "Task Added !!!";
 			
 			
-		}catch(UserIdException e) {
-			return e.getMessage();
 		}catch(Exception e) {
-			return e.getMessage();
+			throw e;
 		}
 	
 	}
 	
-	public String delete(TaskDetailsView taskDetailsView) {
+	public String delete(TaskDetailsView taskDetailsView) throws Exception {
 		
 		try {
 			
-			if(taskDetailsView.getTaskId()==null)
-				throw new Exception("Task is not deleted !!!");
+			Task taskObject=taskRepository.findTaskById(taskDetailsView.getTaskId());
 			
-			taskRepository.deleteById(taskDetailsView.getTaskId());
+			taskRepository.delete(taskObject);
 			
 			return "Task Deleted !!!";
 			
 		}catch(Exception e) {
-			return e.getMessage();
+			throw e;
 		}
 	}
 	
-	public String update(TaskDetailsView taskDetailsView) {
+	public String update(TaskDetailsView taskDetailsView) throws Exception {
 		
 		try {
-			
-			if(taskDetailsView.getTaskId()==null)
-				throw new Exception("Task is not deleted !!!");
 			
 			Task taskObject=taskRepository.findTaskById(taskDetailsView.getTaskId());
 			
@@ -94,7 +88,7 @@ public class Action {
 			return "Task Updated !!!";
 			
 		}catch(Exception e) {
-			return e.getMessage();
+			throw e;
 		}
 	}
 }

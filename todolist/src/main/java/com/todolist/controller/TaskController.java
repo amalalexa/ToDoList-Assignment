@@ -37,7 +37,7 @@ public class TaskController {
 		
 		try {
 			
-			return ResponseEntity.ok().body(this.taskService.deleteTask(taskDetailsView));
+			return ResponseEntity.ok().body(taskService.deleteTask(taskDetailsView));
 			
 		}catch(Exception e) {
 			return ResponseEntity.status(500).body(e.getMessage());

@@ -3,6 +3,7 @@ package com.todolist.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -19,12 +20,9 @@ import lombok.Setter;
 public class User {
 	
 	@Id
-	@GeneratedValue(generator = "userId-generator")
-	@GenericGenerator(name = "userId-generator", 
-					  parameters = @Parameter(name = "prefix", value = "U"), 
-					  strategy = "com.todolist.model.GenerateId")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="user_id")
-	private String userId;
+	private int userId;
 	
 	@Column(name="user_name")
 	private String userName;

@@ -1,22 +1,23 @@
 package com.todolist.validator;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.todolist.repository.UserRepository;
 
 
 @Component
 public class UserDetailsValidation {
 	
-	public boolean validatePassword(String password) {
+	@Autowired
+	private UserRepository userRepository;
+	
+	public boolean validateUserName(String username) {
 		
-		//Pattern p=Pattern.compile("a");
-		//Matcher m=p.matcher(password);
-		
-		//Boolean result=m.matches()==true?true:false;
-		
-		return true;
+		if(userRepository.checkUserNameExsists(username)==1)
+			return false;
+		else
+			return true;
 	}
 
 }

@@ -6,6 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.todolist.exception.PasswordException;
+import com.todolist.exception.UserNameExsistsException;
 import com.todolist.model.User;
 import com.todolist.repository.UserRepository;
 import com.todolist.validator.UserDetailsValidation;
@@ -25,27 +26,35 @@ public class UserService {
 		try {
 			
 			//validating the password
-			if(!userValidation.validatePassword(signUpView.getPassword()))
-				throw new PasswordException("Password not in a valid format !!!");
+			if(signUpView.getPassword()=="" || signUpView.getPassword()==null)
+				throw new PasswordException("Password shouldn't be empty !!!");
+			
+			//check if user exsists or not
+			if(!userValidation.validateUserName(signUpView.getUserName()))
+				throw new UserNameExsistsException("User Already Exsists !!!");
+			
 			
 			User userObject=new User();
+			
+			//password encoder
 			BCryptPasswordEncoder bc=new BCryptPasswordEncoder();
+			
 			//copying values to userObject(to save)
 			BeanUtils.copyProperties(signUpView, userObject);
+			
+			//setting the encrypted password
 			userObject.setPassword(bc.encode(signUpView.getPassword()));
 			
 			userRepository.save(userObject);
 			
 			return "User Successfully Registered !!!";
+			
 		}catch(PasswordException e) {
+			return e.getMessage();
+		}catch(UserNameExsistsException e) {
 			return e.getMessage();
 		}catch(Exception e) {
 			return e.getMessage();
 		}
 	}
-	
-	public void logInUser() {
-		
-	}
-
 }
