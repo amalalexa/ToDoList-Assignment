@@ -42,8 +42,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         try {
             LoginDetailsView applicationUser = new ObjectMapper().readValue(req.getInputStream(), LoginDetailsView.class);
             return authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(applicationUser.getUserName(),
-                            applicationUser.getPassword(), new ArrayList<>())
+                    new UsernamePasswordAuthenticationToken(applicationUser.getName(),
+                            applicationUser.getPassword())
             );
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -59,7 +59,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         Claims claims = Jwts.claims().setSubject(((User) auth.getPrincipal()).getUsername());
         String token = Jwts.builder().setClaims(claims).signWith(key, SignatureAlgorithm.HS256).setExpiration(exp).compact();
         res.addHeader("token", token);
-
+        res.addHeader("Access-Control-Expose-Headers","*");
 
     }
 }

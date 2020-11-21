@@ -23,7 +23,7 @@ public class Action {
     private UserIdRetrievalService userIdRetrievalService;
 
 	@SuppressWarnings("deprecation")
-	public String add(TaskDetailsView taskDetailsView) {
+	public String add(TaskDetailsView taskDetailsView) throws Exception {
 		
 		try {
 			

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class SignUpView {
 	
-	private String userName;
+	private String name;
 	private String password;
 	
 

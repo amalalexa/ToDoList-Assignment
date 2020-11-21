@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-4"></div>
+    <div class="col-4">
+        <form [formGroup]="form" class="signup-form-css">
+            <div class="heading">Sign Up</div>
+            <mat-form-field>
+                <mat-label>UserName</mat-label>
+                <input formControlName="name" matInput/>
+            </mat-form-field>
+            <div *ngIf="name.touched && name.invalid">
+                <div *ngIf="name.errors.required">Name required !!!</div>
+                <div *ngIf="name.errors.nameValidation">Name can only contain alphabets !!!</div>
+            </div><br/>
+            <mat-form-field>
+                <mat-label>Password</mat-label>
+                <input formControlName="password" matInput/>
+            </mat-form-field>
+            <div *ngIf="password.touched && password.invalid">
+                <div *ngIf="password.errors.required">Password required !!!</div>
+                <div *ngIf="password.errors.pattern">Not a valid Password !!!</div>
+            </div><br/>
+            <button mat-button mat-dialog-close>Cancel</button>
+            <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="saveUserDetails(form)">Sign Up</button>
+        </form>
+    </div>
+</div>
+
+<div>
+    <h1 class="result">{{result}}</h1>
+</div>

@@ -54,7 +54,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
                     .getBody();
 
             if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+                return new UsernamePasswordAuthenticationToken(user, null);
             }else{
                 return  null;
             }

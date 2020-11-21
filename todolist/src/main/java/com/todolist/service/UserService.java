@@ -30,7 +30,7 @@ public class UserService {
 				throw new PasswordException("Password shouldn't be empty !!!");
 			
 			//check if user exsists or not
-			if(!userValidation.validateUserName(signUpView.getUserName()))
+			if(!userValidation.validateUserName(signUpView.getName()))
 				throw new UserNameExsistsException("User Already Exsists !!!");
 			
 			
@@ -40,7 +40,7 @@ public class UserService {
 			BCryptPasswordEncoder bc=new BCryptPasswordEncoder();
 			
 			//copying values to userObject(to save)
-			BeanUtils.copyProperties(signUpView, userObject);
+			userObject.setUserName(signUpView.getName());
 			
 			//setting the encrypted password
 			userObject.setPassword(bc.encode(signUpView.getPassword()));

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 public class LoginDetailsView {
 	
-	private String userName;
+	private String name;
 	private String password;
 
 }
