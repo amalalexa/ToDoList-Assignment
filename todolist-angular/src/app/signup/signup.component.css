@@ -1,9 +1,13 @@
 .signup-form-css{
     margin-top: 100px;
     border-style: solid;
-    border-radius: 5%;
+    border-radius: 10%;
     border-color: black;
-    border-width: 10;
+    border-width: 1px;
+
+    padding-top: 20px;
+    padding-bottom: 30px;
+    width: auto;
 }
 .signup-form-css .heading{
     text-align: center;
@@ -14,12 +18,10 @@
     
     padding: 10px;
     width: 70%;
-    height: 30%;
 }
 
 .signup-form-css button{
     margin-left: 20px;
-    float: left;
 }
 
 .result{

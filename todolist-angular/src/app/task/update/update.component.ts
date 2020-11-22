@@ -33,6 +33,7 @@ export class UpdateComponent implements OnInit {
   updateTaskDetails(form:FormGroup){
     this.updatedTask=form.value;
     this.updatedTask.taskId=this.data.taskDetails.taskId;
+    this.updatedTask.taskCheck=this.data.taskDetails.taskCheck;
     this.taskService.updateTask(this.updatedTask).subscribe(res =>{
       this.update.emit(res);
     });

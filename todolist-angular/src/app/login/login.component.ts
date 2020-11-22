@@ -37,7 +37,10 @@ export class LoginComponent implements OnInit {
     this.user=form.value;
     this.userService.login(this.user).subscribe(
       response=>{
-        localStorage.setItem('token','Bearer '+response.headers.get('token'));
+        const token=response.headers.get('token');
+        localStorage.setItem('token','Bearer '+token);
+        localStorage.setItem('username',this.getUserInfo(token)['sub']);
+        this.userService.subject.next(true);
         this.router.navigateByUrl("/home");
       },
       error=>{
@@ -46,6 +49,17 @@ export class LoginComponent implements OnInit {
       }
     );
 
+  }
+
+  getUserInfo(token:String) {
+    let payload;
+    if (token) {
+      payload = token.split(".")[1];
+      payload = window.atob(payload);
+      return JSON.parse(payload);
+    } else {
+      return null;
+    }
   }
 
 }

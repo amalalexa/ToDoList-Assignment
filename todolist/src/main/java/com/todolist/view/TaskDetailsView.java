@@ -11,6 +11,7 @@ public class TaskDetailsView {
 
 	private String taskDescription;
 	private int taskId;
+	private boolean taskCheck;
 	//private Date dueDate;
 	
 }

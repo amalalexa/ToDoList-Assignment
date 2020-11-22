@@ -1,17 +1,6 @@
-mat-icon{
-    background-color: white;
-}
-.heading{
-    color: white;
-    float: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); 
-}
-
-.right-icons button{
-    background-color: white;
-    color: blue;
-    margin-right: 5px;
-}
+.example-spacer {
+    flex: 1 1 auto;
+  }
+  button{
+      margin-right: 10px;
+  }

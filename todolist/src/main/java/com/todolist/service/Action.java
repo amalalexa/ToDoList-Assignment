@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -75,8 +76,9 @@ public class Action {
 			
 			
 			taskRepository.delete(taskObject);
+			System.out.println(taskObject.getTaskId());
 			
-			
+			System.out.println(taskRepository.findAll());
 			return taskService.getAllTask();
 			
 		}catch(Exception e) {
@@ -91,7 +93,7 @@ public class Action {
 			Task taskObject=taskRepository.findTaskById(taskDetailsView.getTaskId());
 			
 			taskObject.setTaskDescription(taskDetailsView.getTaskDescription());
-			
+			BeanUtils.copyProperties(taskDetailsView, taskObject);
 			Date now=new Date();
 			taskObject.setLastUpdateDate(now);
 			

@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 })
 export class HomeComponent implements OnInit {
 
-
+  listOfTask:boolean=false;
   listOfTaskDetails$:TaskDetails[];
   task:TaskDetails;
   vehicles: Observable<Array<TaskDetails>>
@@ -23,6 +23,8 @@ export class HomeComponent implements OnInit {
 
     this.taskService.getAllTask().subscribe((res)=>{
         this.listOfTaskDetails$=res;
+        if(this.listOfTaskDetails$.length==0)
+          this.listOfTask=true;
     });
   }
 
@@ -31,6 +33,10 @@ export class HomeComponent implements OnInit {
 
     const subscribeDialog= dialogRef.componentInstance.change.subscribe((data)=>{
       this.listOfTaskDetails$=data;
+      if(this.listOfTaskDetails$.length==0)
+          this.listOfTask=true;
+      else  
+          this.listOfTask=false;
       subscribeDialog.unsubscribe();
     });
 
@@ -39,25 +45,20 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  updateTask(taskId:number){
-    
-    for(let i=0;i<this.listOfTaskDetails$.length;i++)
-    {
-      if(this.listOfTaskDetails$[i].taskId==taskId)
-      {
-        this.task=this.listOfTaskDetails$[i];
-        break;
-      }
-    }
-
+  updateTask(task:TaskDetails){
+    console.log(task);
     let dialogRef=this.dialog.open(UpdateComponent,{
       data: {
-        taskDetails: this.task
+        taskDetails:task
       }
     });
-
+    
     let subscribeDialog= dialogRef.componentInstance.update.subscribe((data)=>{
       this.listOfTaskDetails$=data;
+      if(this.listOfTaskDetails$.length==0)
+          this.listOfTask=true;
+      else
+          this.listOfTask=false;
       subscribeDialog.unsubscribe();
     });
 
@@ -67,10 +68,25 @@ export class HomeComponent implements OnInit {
 
   }
 
-  deleteTask(taskId:number){
-    this.taskService.deleteTask(taskId).subscribe(res =>{
+  deleteTask(task:TaskDetails){
+    this.taskService.deleteTask(task.taskId).subscribe(res =>{
       this.listOfTaskDetails$=res;
+      if(this.listOfTaskDetails$.length==0)
+          this.listOfTask=true;
+      else
+          this.listOfTask=false;
     });
+  }
+
+  checkTask($event,task:TaskDetails){
+
+      task.taskCheck=$event.checked;
+      console.log(task);
+      this.taskService.updateTask(task).subscribe(res =>{
+        this.listOfTaskDetails$=res;
+      });
+    
+      
   }
 
 }

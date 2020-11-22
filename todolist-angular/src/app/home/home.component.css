@@ -21,9 +21,20 @@ button :hover{
 }
 
 .panel{
-  margin-top: 50px;
+  margin: 100px;
 
 }
 .modification{
   text-align: center;
+}
+.example-margin {
+  margin: 0 10px;
+}
+
+.details{
+  font-weight: bolder;
+  font-size: medium;
+}
+span{
+  margin-left: 50px;
 }

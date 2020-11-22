@@ -3,6 +3,7 @@ package com.todolist.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.todolist.model.Task;
 
 @Repository
-public interface TaskRepository extends JpaRepository<Task, String>, ParentRepository{
+public interface TaskRepository extends JpaRepository<Task, String>{
 
 	@Query(value="SELECT t.task_id FROM task t", nativeQuery=true)
 	List<String> findAllIds();
@@ -20,5 +21,9 @@ public interface TaskRepository extends JpaRepository<Task, String>, ParentRepos
 	
 	@Query(value="SELECT * from task t where t.user_id = :userId", nativeQuery=true)
 	List<Task> findAllTaskByUserId(@Param("userId") int userId);
+	
+	@Modifying
+	@Query(value="DELETE FROM task t WHERE t.task_id = :taskId", nativeQuery=true)
+	void deleteTask(@Param("taskId") int taskId);
 	
 }

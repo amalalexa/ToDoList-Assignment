@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-4"></div>
-    <div class="col-4">
+    <div class="col-4" style="text-align: center;">
         <form [formGroup]="form" class="signup-form-css">
             <div class="heading">Sign Up</div>
             <mat-form-field>
@@ -19,8 +19,8 @@
                 <div *ngIf="password.errors.required">Password required !!!</div>
                 <div *ngIf="password.errors.pattern">Not a valid Password !!!</div>
             </div><br/>
-            <button mat-button mat-dialog-close>Cancel</button>
-            <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="saveUserDetails(form)">Sign Up</button>
+            <button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
+            <button mat-raised-button color="primary" [mat-dialog-close]="true" cdkFocusInitial (click)="saveUserDetails(form)">Sign Up</button>
         </form>
     </div>
 </div>
