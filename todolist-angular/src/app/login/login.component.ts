@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { UserService } from './../service/user.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -12,7 +13,7 @@ export class LoginComponent implements OnInit {
 
   user:UserSignUpDetails;
   error:String='';
-  constructor(private userService:UserService) { }
+  constructor(private userService:UserService, private router:Router) { }
 
   ngOnInit(): void {
   }
@@ -20,10 +21,10 @@ export class LoginComponent implements OnInit {
   form = new FormGroup({
     'name':new FormControl('',[
       Validators.required,
-      Validators.pattern("[a-zA-Z]+")]), //simple validation for name
+      Validators.pattern("[a-zA-Z0-9]+")]), //simple validation for name
     'password':new FormControl('',[
       Validators.required,
-      Validators.pattern("[a-zA-Z@_]*") //simple validation for pasword
+      Validators.pattern("[a-zA-Z@_0-9]*") //simple validation for pasword
     ])
   });
   get name(){
@@ -37,7 +38,7 @@ export class LoginComponent implements OnInit {
     this.userService.login(this.user).subscribe(
       response=>{
         localStorage.setItem('token','Bearer '+response.headers.get('token'));
-        console.log("token set");
+        this.router.navigateByUrl("/home");
       },
       error=>{
         this.error=error;

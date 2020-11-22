@@ -1,3 +1,4 @@
+import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from 'src/app/signup/signup.component';
 
@@ -11,6 +12,9 @@ const routes: Routes = [
   },
   {
     path:'login',component:LoginComponent
+  },
+  {
+    path:'home',component:HomeComponent
   },
 ];
 

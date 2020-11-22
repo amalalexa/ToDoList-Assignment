@@ -1,1 +1,32 @@
-<p>home works!</p>
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-6">
+        <div>
+            <mat-accordion class="panel">
+                <mat-expansion-panel *ngFor="let task of listOfTaskDetails$">
+                  <mat-expansion-panel-header>
+                    <mat-panel-description>
+                        {{task.taskDescription}}
+                        {{task.lastUpdateDate | date :'shortDate'}}
+                        {{task.taskCheck}}
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <div class="modification">
+                    <button mat-button (click)="updateTask(task.taskId)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-button (click)="deleteTask(task.taskId)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+    </div>
+    <div class="col-4 add">
+        <button mat-fab color="primary" (click)="addTask()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+</div>
+

@@ -25,6 +25,11 @@ public class ApplicationUserDetailsService implements UserDetailsService {
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		ArrayList<GrantedAuthority> newAuthorities = new ArrayList<GrantedAuthority>();
+		String[] array=username.split("=");
+		if(array.length>1)
+			username=array[1].split(",")[0];
+		
+		
     	com.todolist.model.User applicationUser = userRepository.getUserName(username);
         if(applicationUser == null)
         	throw new UsernameNotFoundException("User name not found !!!");

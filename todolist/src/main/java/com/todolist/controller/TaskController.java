@@ -3,6 +3,7 @@ package com.todolist.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ public class TaskController {
 	private TaskService taskService;
 	
 	@PostMapping("/add")
-	public ResponseEntity<String> addTask(@RequestBody TaskDetailsView taskDetailsView){
+	public ResponseEntity<?> addTask(@RequestBody TaskDetailsView taskDetailsView){
 		
 		try {
 			
@@ -33,7 +34,7 @@ public class TaskController {
 	}
 	
 	@PostMapping("/delete")
-	public ResponseEntity<String> deleteTask(@RequestBody TaskDetailsView taskDetailsView){
+	public ResponseEntity<?> deleteTask(@RequestBody TaskDetailsView taskDetailsView){
 		
 		try {
 			
@@ -42,11 +43,10 @@ public class TaskController {
 		}catch(Exception e) {
 			return ResponseEntity.status(500).body(e.getMessage());
 		}
-
 	}
 	
 	@PostMapping("/update")
-	public ResponseEntity<String> updateTask(@RequestBody TaskDetailsView taskDetailsView){
+	public ResponseEntity<?> updateTask(@RequestBody TaskDetailsView taskDetailsView){
 		
 		try {
 			
@@ -57,5 +57,16 @@ public class TaskController {
 		}
 
 	}
+	
+	@GetMapping("/allTask")
+	public ResponseEntity<?> getAllTask(){
+		
+		try {
+			return ResponseEntity.ok().body(this.taskService.getAllTask());
+			
+		}catch(Exception e) {
+			return ResponseEntity.status(500).body(e.getMessage());
+		}
 
+	}
 }

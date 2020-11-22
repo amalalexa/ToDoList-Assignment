@@ -1,7 +1,10 @@
 package com.todolist.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.todolist.model.Task;
 import com.todolist.view.TaskDetailsView;
 
 @Service
@@ -14,7 +17,7 @@ public class SwitchTaskAction {
 		this.commandTask=commandTask;
 	}
 	
-	public String switchAction(TaskDetailsView taskDetailsView) throws Exception{
+	public List<Task> switchAction(TaskDetailsView taskDetailsView) throws Exception{
 		
 		return this.commandTask.execute(taskDetailsView);
 	}

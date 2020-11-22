@@ -30,7 +30,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
                                     HttpServletResponse response,
                                     FilterChain chain) throws IOException, ServletException {
         String header = request.getHeader(SecurityConstants.HEADER_NAME);
-        
+        System.out.println(header);
         if (header == null) {
             chain.doFilter(request, response);
             return;
@@ -54,7 +54,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
                     .getBody();
 
             if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null);
+                return new UsernamePasswordAuthenticationToken(user, null, new ArrayList());
             }else{
                 return  null;
             }

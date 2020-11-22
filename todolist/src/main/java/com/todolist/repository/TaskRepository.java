@@ -17,4 +17,8 @@ public interface TaskRepository extends JpaRepository<Task, String>, ParentRepos
 	
 	@Query(value="SELECT * from task t where t.task_id = :taskId", nativeQuery=true)
 	Task findTaskById(@Param("taskId") int taskId);
+	
+	@Query(value="SELECT * from task t where t.user_id = :userId", nativeQuery=true)
+	List<Task> findAllTaskByUserId(@Param("userId") int userId);
+	
 }

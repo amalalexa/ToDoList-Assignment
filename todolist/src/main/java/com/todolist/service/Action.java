@@ -1,6 +1,8 @@
 package com.todolist.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,10 +23,14 @@ public class Action {
     
     @Autowired
     private UserIdRetrievalService userIdRetrievalService;
+    
+    @Autowired
+    private TaskService taskService;
 
 	@SuppressWarnings("deprecation")
-	public String add(TaskDetailsView taskDetailsView) throws Exception {
+	public List<Task> add(TaskDetailsView taskDetailsView) throws Exception {
 		
+		List<Task> listOfTask=new ArrayList<Task>();
 		try {
 			
 			//creating a newTaskObject
@@ -41,14 +47,18 @@ public class Action {
 			Date today=new Date();
 			newTaskObject.setLastUpdateDate(today);
 			
-			//getting userID from token(JWT) userIdRetrievalService.Getloggedinuserdetails().getUserId()
-			newTaskObject.setUserId(0);
+			int userId=userIdRetrievalService.Getloggedinuserdetails().getUserId();
+			//getting userID from token(JWT) 
+			newTaskObject.setUserId(userId);
 			//if(taskDetailsView.getDueDate().compareTo(today)>=0)
 			//	throw new DateException("Due Date can't be less than Today's Date !!");
 			
 			//saving the newTaskObject to database
-			taskRepository.save(newTaskObject);			
-			return "Task Added !!!";
+			taskRepository.save(newTaskObject);		
+			
+			
+			
+			return taskService.getAllTask();
 			
 			
 		}catch(Exception e) {
@@ -57,22 +67,24 @@ public class Action {
 	
 	}
 	
-	public String delete(TaskDetailsView taskDetailsView) throws Exception {
+	public List<Task> delete(TaskDetailsView taskDetailsView) throws Exception {
 		
 		try {
 			
 			Task taskObject=taskRepository.findTaskById(taskDetailsView.getTaskId());
 			
+			
 			taskRepository.delete(taskObject);
 			
-			return "Task Deleted !!!";
+			
+			return taskService.getAllTask();
 			
 		}catch(Exception e) {
 			throw e;
 		}
 	}
 	
-	public String update(TaskDetailsView taskDetailsView) throws Exception {
+	public List<Task> update(TaskDetailsView taskDetailsView) throws Exception {
 		
 		try {
 			
@@ -85,7 +97,7 @@ public class Action {
 			
 			taskRepository.save(taskObject);
 			
-			return "Task Updated !!!";
+			return taskService.getAllTask();
 			
 		}catch(Exception e) {
 			throw e;

@@ -10,10 +10,10 @@ export class UserService {
 
   saveUserDetails(user:UserSignUpDetails){
     
-    return this.http.post(environment.apiUrl+"/user/signup",user,{ responseType: 'text' });
+    return this.http.post(environment.apiUrl+"/api/user/signup",user,{ responseType: 'text' });
   }
 
   login(user:UserSignUpDetails){
-    return this.http.post("http://localhost:5000/login",user,{observe: 'response'});
+    return this.http.post(environment.apiUrl+"/login",user,{observe: 'response'});
   }
 }

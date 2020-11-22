@@ -17,8 +17,10 @@ public class UserIdRetrievalService {
 	public User Getloggedinuserdetails()
 	{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		org.springframework.security.core.userdetails.User jwtUser = (org.springframework.security.core.userdetails.User) auth.getPrincipal();
-		User userdetails=userRepository.getUserName(jwtUser.getUsername());
+		String username=(String)auth.getName();
+		String[] array=username.split("=");
+		username=array[1].split(",")[0];
+		User userdetails=userRepository.getUserName(username);
 		return userdetails;
 	}
 }

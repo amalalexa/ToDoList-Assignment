@@ -1,5 +1,8 @@
 package com.todolist.service;
 
+import java.util.List;
+
+import com.todolist.model.Task;
 import com.todolist.view.TaskDetailsView;
 
 public class TaskAddService implements CommandTask{
@@ -9,7 +12,7 @@ public class TaskAddService implements CommandTask{
 	public TaskAddService(Action action) {
 		this.action=action;
 	}
-	public String execute(TaskDetailsView taskDetailsView) throws Exception {
+	public List<Task> execute(TaskDetailsView taskDetailsView) throws Exception {
 		
 		try {
 			return this.action.add(taskDetailsView);

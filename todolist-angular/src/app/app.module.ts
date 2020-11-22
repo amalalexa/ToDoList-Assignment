@@ -13,6 +13,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
 import { MatComponentsModule } from './mat-components/mat-components.module';
 import { HomeComponent } from './home/home.component';
+import { AddComponent } from './task/add/add.component';
+import { TaskService } from './service/task.service';
+import { UpdateComponent } from './task/update/update.component';
+
 
 @NgModule({
   declarations: [
@@ -20,7 +24,9 @@ import { HomeComponent } from './home/home.component';
     NavbarComponent,
     SignupComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    AddComponent,
+    UpdateComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +37,7 @@ import { HomeComponent } from './home/home.component';
     ReactiveFormsModule,
     HttpClientModule 
   ],
-  providers: [UserService,{ provide: MAT_DIALOG_DATA, useValue: {} },{ provide: MatDialogRef, useValue: {} }],
+  providers: [UserService,{ provide: MAT_DIALOG_DATA, useValue: {} },{ provide: MatDialogRef, useValue: {} },TaskService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
