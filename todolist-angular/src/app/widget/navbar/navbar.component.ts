@@ -14,7 +14,7 @@ export class NavbarComponent implements OnInit {
   isLogin;
   constructor(private userService:UserService, private router:Router) {
       this.isLogin=this.userService.subject;
-      this.username=localStorage.getItem('username');
+      this.username=localStorage.getItem('token');
       if(this.username)
         this.userService.subject.next(true);
       else
@@ -24,15 +24,24 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
   }
   getUserName(){
-    return localStorage.getItem('username');
+    return this.getUserInfo(localStorage.getItem('token'))['sub'];
   }
   logout(){
-
-    localStorage.removeItem('username');
     localStorage.removeItem('token');
     this.userService.subject.next(false);
 
     this.router.navigateByUrl("/login");
 
   }
+  getUserInfo(token:String) {
+    let payload;
+    if (token) {
+      payload = token.split(".")[1];
+      payload = window.atob(payload);
+      return JSON.parse(payload);
+    } else {
+      return null;
+    }
+  }
+
 }

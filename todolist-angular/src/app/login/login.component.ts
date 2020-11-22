@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from './../service/user.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -12,8 +12,8 @@ import { UserSignUpDetails } from '../view/UserSignUpDetails';
 export class LoginComponent implements OnInit {
 
   user:UserSignUpDetails;
-  error:String='';
-  constructor(private userService:UserService, private router:Router) { }
+  result:String='';
+  constructor(private userService:UserService, private router:Router,private routeParams:ActivatedRoute) { }
 
   ngOnInit(): void {
   }
@@ -37,29 +37,19 @@ export class LoginComponent implements OnInit {
     this.user=form.value;
     this.userService.login(this.user).subscribe(
       response=>{
-        const token=response.headers.get('token');
-        localStorage.setItem('token','Bearer '+token);
-        localStorage.setItem('username',this.getUserInfo(token)['sub']);
+        localStorage.setItem('token','Bearer '+response.headers.get('token'));
         this.userService.subject.next(true);
-        this.router.navigateByUrl("/home");
+        this.routeParams.queryParamMap.subscribe((params)=>{
+          this.router.navigateByUrl(params.get('returnUrl'));
+        })
       },
       error=>{
-        this.error=error;
-        console.log(this.error);
+        this.result="Wrong Credentials !!!";
+        
       }
     );
 
   }
 
-  getUserInfo(token:String) {
-    let payload;
-    if (token) {
-      payload = token.split(".")[1];
-      payload = window.atob(payload);
-      return JSON.parse(payload);
-    } else {
-      return null;
-    }
-  }
-
+  
 }

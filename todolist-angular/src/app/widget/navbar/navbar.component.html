@@ -1,7 +1,7 @@
 
 <mat-toolbar color="primary">
 
-    <span>To Do List Web Application</span>
+    <span><a routerLink="/home" class="home">To Do List Web Application</a></span>
     <span class="example-spacer"></span>
     <div *ngIf="isLogin | async; else val" >
         <pre><b style="font-weight: bolder; font-size: x-large; color: aliceblue; padding-top: 50px;">{{getUserName()}}</b>  <button mat-raised-button  (click)="logout()">Log Out</button></pre> 

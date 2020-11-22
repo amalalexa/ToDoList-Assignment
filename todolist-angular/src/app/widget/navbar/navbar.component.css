@@ -4,3 +4,11 @@
   button{
       margin-right: 10px;
   }
+  .home{
+      color: white;
+      padding-left: 75px;
+  }
+
+  .home:hover{
+    color: violet;
+  }

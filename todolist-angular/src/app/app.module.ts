@@ -16,6 +16,7 @@ import { HomeComponent } from './home/home.component';
 import { AddComponent } from './task/add/add.component';
 import { TaskService } from './service/task.service';
 import { UpdateComponent } from './task/update/update.component';
+import { NoPageComponent } from './no-page/no-page.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { UpdateComponent } from './task/update/update.component';
     LoginComponent,
     HomeComponent,
     AddComponent,
-    UpdateComponent
+    UpdateComponent,
+    NoPageComponent
   ],
   imports: [
     BrowserModule,
