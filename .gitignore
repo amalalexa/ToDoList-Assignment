@@ -2,7 +2,6 @@
 *.class
 
 #db file
-*.db
 
 #YML files
 *.yml
@@ -18,7 +17,6 @@
 
 # Package Files #
 *.jar
-*.war
 *.nar
 *.ear
 *.zip
