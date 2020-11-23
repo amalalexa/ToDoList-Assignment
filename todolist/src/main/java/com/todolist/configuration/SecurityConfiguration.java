@@ -29,13 +29,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private ApplicationUserDetailsService userDetailsService;
 	
+	//configuring the API paths
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
+        		//dont't authorize request for below paths
         		.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
         		.antMatchers("/h2/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
+                // authentication and authorization for below paths
                 .requestMatchers().antMatchers("/api/**","/login").and()
                 .addFilter(new AuthenticationFilter(authenticationManager()))
                 .addFilter(new AuthorizationFilter(authenticationManager()))
@@ -43,13 +46,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
         http.headers().frameOptions().disable();
     }
 	
+	//disabling CORS
 	@Bean
     CorsConfigurationSource corsConfigurationSource() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
         return source;
     }
-
+    
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());

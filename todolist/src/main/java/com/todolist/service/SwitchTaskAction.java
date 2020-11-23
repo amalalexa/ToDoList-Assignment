@@ -1,25 +1,40 @@
 package com.todolist.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.todolist.model.Task;
-import com.todolist.view.TaskDetailsView;
 
+//service which switch the task 
 @Service
 public class SwitchTaskAction {
 	
-	private CommandTask commandTask;
+	private List<CommandTask> listOfCommands=new ArrayList<CommandTask>();
 	
-	public void setCommand(CommandTask commandTask) {
+	public void addCommand(CommandTask commandTask) {
 		
-		this.commandTask=commandTask;
+		this.listOfCommands.add(commandTask);
 	}
 	
-	public List<Task> switchAction(TaskDetailsView taskDetailsView) throws Exception{
+	//execute the commands in the listOfCommands
+	public List<Task> executeCommands() throws Exception {
 		
-		return this.commandTask.execute(taskDetailsView);
+		for(CommandTask command:this.listOfCommands) {
+			if(command instanceof TaskDisplayService)
+				try {
+					//Storing the last command
+					CommandTask lastCommand=command;
+					//clearing the list of commands, so previous list of operations are cleared off.
+					this.listOfCommands.clear(); 
+					return lastCommand.execute();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			
+			command.execute();
+		}
+		return new ArrayList<Task>();
 	}
-
 }

@@ -39,6 +39,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
+        	//extracting the user details 'username' and 'password' from the request body
             LoginDetailsView applicationUser = new ObjectMapper().readValue(req.getInputStream(), LoginDetailsView.class);
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(applicationUser.getName(),
@@ -48,17 +49,17 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             throw new RuntimeException(e);
         }
     }
-
+    
     @Override
     protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
-
-        Date exp = new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME);
+    	
+    	//login to generate token
+        Date exp = new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME); //setting expiration time for JWT token
         Key key = Keys.hmacShaKeyFor(SecurityConstants.KEY.getBytes());
         Claims claims = Jwts.claims().setSubject(((User) auth.getPrincipal()).getUsername());
-        String token = Jwts.builder().setClaims(claims).signWith(key, SignatureAlgorithm.HS256).setExpiration(exp).compact();
-        res.addHeader("token", token);
-        res.addHeader("Access-Control-Expose-Headers","*");
+        String token = Jwts.builder().setClaims(claims).signWith(key, SignatureAlgorithm.HS256).setExpiration(exp).compact(); //encoding the userdetails and time - returns the token
+        res.addHeader("token", token); //setting the token to the response header
 
     }
 }

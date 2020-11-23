@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.todolist.service.Action;
 import com.todolist.service.TaskService;
 import com.todolist.view.TaskDetailsView;
+
+
 
 @CrossOrigin(origins="*")
 @RestController
@@ -19,6 +22,9 @@ public class TaskController {
 	
 	@Autowired
 	private TaskService taskService;
+	
+	@Autowired
+	private Action action;
 	
 	@PostMapping("/add")
 	public ResponseEntity<?> addTask(@RequestBody TaskDetailsView taskDetailsView){
@@ -62,7 +68,7 @@ public class TaskController {
 	public ResponseEntity<?> getAllTask(){
 		
 		try {
-			return ResponseEntity.ok().body(this.taskService.getAllTask());
+			return ResponseEntity.ok().body(this.action.displayAllTask());
 			
 		}catch(Exception e) {
 			return ResponseEntity.status(500).body(e.getMessage());

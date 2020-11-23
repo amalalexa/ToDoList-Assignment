@@ -19,8 +19,10 @@ import com.todolist.view.SignUpView;
 @CrossOrigin(origins="*")
 @RestController
 public class UserController {
+	
 	@Autowired
 	private UserService userService;
+	
 	
 	@PostMapping("/api/user/signup")
 	public ResponseEntity<String> signingUpUser(@RequestBody SignUpView signUpView){

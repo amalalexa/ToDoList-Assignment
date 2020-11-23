@@ -29,15 +29,17 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain chain) throws IOException, ServletException {
+    	//receives the token from the request header where the header name "Authorization"
         String header = request.getHeader(SecurityConstants.HEADER_NAME);
-        System.out.println(header);
         if (header == null) {
             chain.doFilter(request, response);
             return;
         }else {
+        	// extract token where header variable is of the form "Bearer token"
         	header=header.split(" ")[1];
         }
-
+        
+        //authenticating user details
         UsernamePasswordAuthenticationToken authentication = authenticate(request);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -45,8 +47,11 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     private UsernamePasswordAuthenticationToken authenticate(HttpServletRequest request) {
+    	
+    	//extracting the token from request header
         String token = request.getHeader(SecurityConstants.HEADER_NAME);
         token=token.split(" ")[1];
+        
         if (token != null) {
             Claims user = Jwts.parser()
                     .setSigningKey(Keys.hmacShaKeyFor(SecurityConstants.KEY.getBytes()))
@@ -54,6 +59,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
                     .getBody();
 
             if (user != null) {
+            	//returning the user details from the token
                 return new UsernamePasswordAuthenticationToken(user, null, new ArrayList());
             }else{
                 return  null;

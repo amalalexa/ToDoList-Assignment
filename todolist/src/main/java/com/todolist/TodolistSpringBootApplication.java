@@ -12,6 +12,7 @@ public class TodolistSpringBootApplication extends SpringBootServletInitializer{
 		SpringApplication.run(TodolistSpringBootApplication.class, args);
 	}
 	
+	//configuration for deploy the app on external Tomcat server
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
 		return builder.sources(TodolistSpringBootApplication.class);

@@ -1,66 +1,62 @@
+/****************************
+ * 
+ * JUnit Testing
+ * 
+ * Testing functionalities Add task, Update task and Delete task.
+ * Mockito used to mock the database
+ * MockMvc used to call the design API's
+ */
 package com.todolist;
 
 
-import org.junit.Before;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.todolist.configuration.SecurityConfiguration;
 import com.todolist.model.Task;
 import com.todolist.repository.TaskRepository;
 import com.todolist.repository.UserRepository;
-import com.todolist.security.AuthenticationFilter;
 import com.todolist.view.DateView;
 import com.todolist.view.LoginDetailsView;
 import com.todolist.view.TaskDetailsView;
-
-import static org.junit.Assert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = TodolistSpringBootApplication.class)
 @EnableWebMvc
 @AutoConfigureMockMvc
 public class TodolistSpringBootApplicationTests {
+	
+	//Creating a MockMvc Bean
 	@Autowired
 	private MockMvc mockMvc;
 	
-	@Autowired
-	private WebApplicationContext webApplicationContext;
-	
+	//Mapping objects to string
 	ObjectMapper om = new ObjectMapper();
 	
-	 @MockBean
-	 private TaskRepository mockedTaskRepository;
+	//Mocking the Task repository
+	@MockBean
+	private TaskRepository mockedTaskRepository;
 	 
-	 @Autowired
-	private UserRepository mockedUserRepository;
 	
-	 //testing Task Addition functionality
+	//testing Task Addition functionality
 	@Test
 	public void testSaveTask() throws Exception {
 		
@@ -72,47 +68,51 @@ public class TodolistSpringBootApplicationTests {
 		//converting the object into string
 		String jsonRequestBody = om.writeValueAsString(loginDetailsView);
 		
-		//mocking the JWT api
+		//calling the login api to verify the credentials
 		MvcResult result = mockMvc.perform(
 				   MockMvcRequestBuilders.post("/login").content(jsonRequestBody)
 				   .contentType(MediaType.APPLICATION_JSON_VALUE))
 			       .andExpect(MockMvcResultMatchers.status().isOk())
 			       .andReturn();
 		
-		//token recieved
+		//token extracted from the response header
 		String token = result.getResponse().getHeader("token");
 		
+		//Mocking repository so that databse won't be affected - purely for testing purpose
 		
-		
-		
-		//Mocking repository, so that databse won't be affected - purely for testing purpose
-		Task task=new Task();
+		Task task=new Task(); //return task object if save() works fine
 		Mockito.when(mockedTaskRepository.save(Mockito.any(Task.class))).thenReturn(task);
 		
-		//setting up task object which needs to be persisted
+		List<Task> arrayOfTask=new ArrayList<Task>(); //return arrayOfTask object if findAllTaskByUserId() works fine
+		Mockito.when(mockedTaskRepository.findAllTaskByUserId(Mockito.any(Integer.class))).thenReturn(arrayOfTask);
+		
+		
+		//Initializing the task object which needs to be persisted
 		TaskDetailsView taskDetailsView=new TaskDetailsView();
-		taskDetailsView.setTaskDescription("Unit Testing");
-		taskDetailsView.setTaskCheck(false);
-		DateView dateView=new DateView();
+		taskDetailsView.setTaskDescription("Mockito Testing"); //task description
+		taskDetailsView.setTaskCheck(false); //task check
+		
+		DateView dateView=new DateView(); //due date for task
 		dateView.setDay(23);
 		dateView.setMonth(11);
 		dateView.setYear(2020);
 		taskDetailsView.setDate(dateView);
 		
-		 jsonRequestBody = om.writeValueAsString(taskDetailsView);
+		//converting object to string
+		jsonRequestBody = om.writeValueAsString(taskDetailsView);
 		
-		 //mocking add api
+		 //calling task add api
 		 result = mockMvc.perform(
 				   MockMvcRequestBuilders.post("/api/task/add").header("Authorization", "Bearer "+token).content(jsonRequestBody)
 				   .contentType(MediaType.APPLICATION_JSON_VALUE))
 			       .andExpect(MockMvcResultMatchers.status().isOk())
 			       .andReturn();
 		 
-		
+		//extracting reponse from the response body
 		String resultResponse = result.getResponse().getContentAsString();
 		
-		//checking the status of response
-		assertEquals(result.getResponse().getStatus(), 200);
+		//verifying the results
+		assertEquals(resultResponse, arrayOfTask.toString());
 		
 	}
 	
@@ -125,32 +125,40 @@ public class TodolistSpringBootApplicationTests {
 		loginDetailsView.setName("test1");
 		loginDetailsView.setPassword("pwd1");
 		
-		
+		//converting object to string
 		String jsonRequestBody = om.writeValueAsString(loginDetailsView);
 		
-		//mocking the JWT api
+		//calling the login api
 		MvcResult result = mockMvc.perform(
 				   MockMvcRequestBuilders.post("/login").content(jsonRequestBody)
 				   .contentType(MediaType.APPLICATION_JSON_VALUE))
 			       .andExpect(MockMvcResultMatchers.status().isOk())
 			       .andReturn();
 		
-		//token recieved
+		//token extracted from response header
 		String token = result.getResponse().getHeader("token");
 		
-		//setting up task object which needs to be deleted
+		//initializing the task object which needs to be deleted
 		TaskDetailsView taskDetailsView=new TaskDetailsView();
 		taskDetailsView.setTaskId(321);
-				
 		
+		//Mocking repository so that databse won't be affected - purely for testing purpose
 		
+		List<Task> arrayOfTask=new ArrayList<Task>(); //return arrayOfTask object if findAllTaskByUserId() works fine
+		Mockito.when(mockedTaskRepository.findAllTaskByUserId(Mockito.any(Integer.class))).thenReturn(arrayOfTask);
+		
+		//calling delete api
 		result = mockMvc.perform(
 				   MockMvcRequestBuilders.post("/api/task/delete").header("Authorization", "Bearer "+token).content(jsonRequestBody)
 				   .contentType(MediaType.APPLICATION_JSON_VALUE))
 			       .andExpect(MockMvcResultMatchers.status().isOk())
 			       .andReturn();
 		
-		assertEquals(result.getResponse().getStatus(), 200);
+		//extracting reponse from the response body
+		String resultResponse = result.getResponse().getContentAsString();
+		
+		//verifying the status
+		assertEquals(resultResponse, arrayOfTask.toString());
 	}
 	
 	//testing Task updation functionality
@@ -162,34 +170,45 @@ public class TodolistSpringBootApplicationTests {
 		loginDetailsView.setName("test1");
 		loginDetailsView.setPassword("pwd1");
 		
-		
+		//converting object to it's string representation
 		String jsonRequestBody = om.writeValueAsString(loginDetailsView);
 		
-		//mocking the JWT api
+		//calling the login api
 		MvcResult result = mockMvc.perform(
 				   MockMvcRequestBuilders.post("/login").content(jsonRequestBody)
 				   .contentType(MediaType.APPLICATION_JSON_VALUE))
 			       .andExpect(MockMvcResultMatchers.status().isOk())
 			       .andReturn();
 		
-		//token recieved
+		//token received
 		String token = result.getResponse().getHeader("token");
 		
-		//setting up task object which needs to be upated
+		//initializing the task object which needs to be upated
 		TaskDetailsView taskDetailsView=new TaskDetailsView();
 		taskDetailsView.setTaskId(353);
 		taskDetailsView.setTaskDescription("I am updating the task");
 		
-		Task task=new Task();
+		//Mocking repository so that database won't be affected - purely for testing purpose
+		
+		Task task=new Task(); //return task when repositoryBean calls findTaskById() and save() 
 		Mockito.when(mockedTaskRepository.findTaskById(Mockito.any(Integer.class))).thenReturn(task);
 		Mockito.when(mockedTaskRepository.save(Mockito.any(Task.class))).thenReturn(task);
+		
+		List<Task> arrayOfTask=new ArrayList<Task>(); //return arrayOfTask object if findAllTaskByUserId() works fine
+		Mockito.when(mockedTaskRepository.findAllTaskByUserId(Mockito.any(Integer.class))).thenReturn(arrayOfTask);
+		
+		//calling the update api
 		result = mockMvc.perform(
 				   MockMvcRequestBuilders.post("/api/task/update").header("Authorization", "Bearer "+token).content(jsonRequestBody)
 				   .contentType(MediaType.APPLICATION_JSON_VALUE))
 			       .andExpect(MockMvcResultMatchers.status().isOk())
 			       .andReturn();
 		
-		assertEquals(result.getResponse().getStatus(), 200);
+		//extract the body of response
+		String resultResponse = result.getResponse().getContentAsString();
+		
+		//verify the response
+		assertEquals(resultResponse, arrayOfTask.toString());
 	}
 
 }
