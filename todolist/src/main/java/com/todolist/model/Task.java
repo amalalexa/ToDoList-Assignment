@@ -32,8 +32,8 @@ public class Task {
 	@Column(name="last_update_date")
 	private Date lastUpdateDate;
 	
-	//@Column(name="due_date")
-	//private Date dueDate;
+	@Column(name="due_date")
+	private Date dueDate;
 	
 	@Column(name="task_description")
 	private String taskDescription;

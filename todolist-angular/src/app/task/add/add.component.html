@@ -1,11 +1,20 @@
+<h2 mat-dialog-title style="text-align: center;">Add Task</h2>
 <mat-dialog-content class="mat-typography">
     <form [formGroup]="form" class="task-form-css">
-        <h2 mat-dialog-title style="text-align: center;">Add Task</h2>
         <mat-form-field>
             <textarea matInput formControlName="taskDescription" placeholder="Write task..."></textarea>
         </mat-form-field>
         <div *ngIf="taskDescription.touched && taskDescription.invalid">
             <div *ngIf="taskDescription.errors.required">Description required !!!</div>
+        </div><br/>
+        <mat-form-field appearance="fill">
+            <input matInput formControlName="date" style="z-index: 1;" placeholder="Pick a date" name="dp" [(ngModel)]="model" [minDate]="minDate" ngbDatepicker #d="ngbDatepicker">
+            <div class="input-group-append">
+               <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"><mat-icon>calendar_today</mat-icon></button>
+            </div>
+        </mat-form-field>
+        <div *ngIf="date.touched && date.invalid">
+            <div *ngIf="date.errors.required">No Date set !!!</div>
         </div><br/>
     </form> 
 </mat-dialog-content>

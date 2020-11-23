@@ -1,5 +1,6 @@
 package com.todolist.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -43,6 +44,11 @@ public class Action {
 			//setting task description
 			newTaskObject.setTaskDescription(taskDetailsView.getTaskDescription());
 			
+			//set due date
+			StringBuilder sb=new StringBuilder();
+			sb.append(taskDetailsView.getDate().getDay()).append("/").append(taskDetailsView.getDate().getMonth()).append("/").append(taskDetailsView.getDate().getYear());
+			Date dueDate=new SimpleDateFormat("dd/MM/yyyy").parse(sb.toString());
+			newTaskObject.setDueDate(dueDate);
 			
 			//setting date to today's date
 			Date today=new Date();
@@ -76,9 +82,7 @@ public class Action {
 			
 			
 			taskRepository.delete(taskObject);
-			System.out.println(taskObject.getTaskId());
 			
-			System.out.println(taskRepository.findAll());
 			return taskService.getAllTask();
 			
 		}catch(Exception e) {

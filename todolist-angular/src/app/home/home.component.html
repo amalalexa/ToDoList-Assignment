@@ -1,26 +1,64 @@
 <div class="row">
-    <div class="col-2 add">
-        <button mat-raised-button color="primary" (click)="addTask()">
+    <div class="col-2"></div>
+    <div class="col-10">
+        <div *ngIf="listOfTask else elseBlock">
+            <h3 style="margin-top: 30px;margin-left: 320px; font-size: x-large; font-weight: bolder;">There are no tasks to display !!!</h3>
+        </div>
+        <ng-template #elseBlock><h3 style="margin-top: 30px; margin-left: 400px; font-size: x-large; font-weight: bolder;">List Of Tasks</h3></ng-template>
+        <div>
+            <h1 class="result">{{error}}</h1>
+        </div>
+        <table mat-table [dataSource]="listOfTaskDetails$" class="mat-elevation-z8">
+        
+            <ng-container matColumnDef="check">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element"> 
+                    <mat-checkbox [checked]="element.taskCheck" (change)="checkTask($event,task)"></mat-checkbox>    
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="taskDescription">
+              <th mat-header-cell *matHeaderCellDef> Task Description </th>
+              <td mat-cell *matCellDef="let element"> {{element.taskDescription}} </td>
+            </ng-container>
+          
+            
+            <ng-container matColumnDef="modifiedDate">
+              <th mat-header-cell *matHeaderCellDef> Last Modified Date </th>
+              <td mat-cell *matCellDef="let element"> {{element.lastUpdateDate | date :'medium'}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="dueDate">
+                <th mat-header-cell *matHeaderCellDef> Task Due Date </th>
+                <td mat-cell *matCellDef="let element"> {{element.dueDate | date :'longDate'}} </td>
+              </ng-container>
+          
+            <!-- Weight Column -->
+            <ng-container matColumnDef="edit">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let element"> 
+                    <button mat-button color="primary" (click)="updateTask(element)">
+                          <mat-icon>edit</mat-icon>
+                    </button> 
+                </td>
+            </ng-container>
+          
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="delete">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let element"> 
+                    <button mat-button color="primary" (click)="deleteTask(element)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        <button style="margin-top: 10px;" mat-raised-button color="primary" (click)="addTask()">
             + Add Task
         </button>
     </div>
-    <div class="col-6">
-        <div *ngIf="listOfTask else elseBlock">
-            <h3 style="text-align: center;margin-top: 200px;margin-left: 150px; font-size: x-large; font-weight: bolder;">There are no tasks to display !!!</h3>
-        </div>
-        <ng-template #elseBlock><h3 style="text-align: center;margin-top: 30px;margin-left: 150px; font-size: x-large; font-weight: bolder;">List Of Tasks</h3></ng-template>
-        <mat-list role="list" >
-            <mat-list-item role="listitem" *ngFor="let task of listOfTaskDetails$">
-                <span><mat-checkbox [checked]="task.taskCheck" (change)="checkTask($event,task)"></mat-checkbox>
-                {{task.taskDescription}}
-                <sub>{{task.lastUpdateDate | date :'medium'}}</sub>
-                <button mat-button color="primary" (click)="updateTask(task)">
-                    <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-button color="primary" (click)="deleteTask(task)">
-                    <mat-icon>delete</mat-icon>
-                </button></span>
-            </mat-list-item>
-        </mat-list>
-    </div>
+    
 </div>

@@ -17,7 +17,7 @@ import { AddComponent } from './task/add/add.component';
 import { TaskService } from './service/task.service';
 import { UpdateComponent } from './task/update/update.component';
 import { NoPageComponent } from './no-page/no-page.component';
-
+import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,8 @@ import { NoPageComponent } from './no-page/no-page.component';
     MatComponentsModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule 
+    HttpClientModule,
+    NgbModule
   ],
   providers: [UserService,{ provide: MAT_DIALOG_DATA, useValue: {} },{ provide: MatDialogRef, useValue: {} },TaskService],
   bootstrap: [AppComponent]

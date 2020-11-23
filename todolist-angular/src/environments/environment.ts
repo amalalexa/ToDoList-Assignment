@@ -8,6 +8,7 @@ export const environment = {
 };
 
 /* apiUrl: 'http://127.0.0.1:8080/todolist-0.0.1-SNAPSHOT/api'
+apiUrl: 'http://127.0.0.1:5000'
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
  *

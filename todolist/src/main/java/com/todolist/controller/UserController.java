@@ -18,13 +18,11 @@ import com.todolist.view.SignUpView;
 
 @CrossOrigin(origins="*")
 @RestController
-@RequestMapping("/api/user")
 public class UserController {
-	
 	@Autowired
 	private UserService userService;
 	
-	@PostMapping("/signup")
+	@PostMapping("/api/user/signup")
 	public ResponseEntity<String> signingUpUser(@RequestBody SignUpView signUpView){
 		try {
 			return ResponseEntity.ok().body(userService.signUpUser(signUpView));
@@ -32,14 +30,5 @@ public class UserController {
 			return ResponseEntity.status(500).body(e.getMessage());
 		}
 	}
-	@PostMapping("/login")
-	public ResponseEntity<String> loggingInUser(){
-		
-		try {
-			return ResponseEntity.ok().body("User Logged in Successfully");
-		}catch(Exception e) {
-			return ResponseEntity.status(500).body(e.getMessage());
-		}
-		
-	}
+	
 }

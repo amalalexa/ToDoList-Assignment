@@ -16,7 +16,8 @@ export class HomeComponent implements OnInit {
   listOfTask:boolean=false;
   listOfTaskDetails$:TaskDetails[];
   task:TaskDetails;
-  vehicles: Observable<Array<TaskDetails>>
+  displayedColumns: string[] = ['check','taskDescription','modifiedDate','dueDate','edit','delete'];
+  error:string='';
   constructor(private dialog:MatDialog, private taskService:TaskService) { }
 
   ngOnInit(): void {
@@ -25,6 +26,10 @@ export class HomeComponent implements OnInit {
         this.listOfTaskDetails$=res;
         if(this.listOfTaskDetails$.length==0)
           this.listOfTask=true;
+    },
+    error=>{
+          if(error.status==500)
+            this.error="Log In Error !!!"
     });
   }
 

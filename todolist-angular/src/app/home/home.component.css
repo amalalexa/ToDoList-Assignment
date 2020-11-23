@@ -6,20 +6,6 @@ button :hover{
     margin-top: 100px;
 }
 
-.example-headers-align .mat-expansion-panel-header-title,
-.example-headers-align .mat-expansion-panel-header-description {
-  flex-basis: 0;
-}
-
-.example-headers-align .mat-expansion-panel-header-description {
-  justify-content: space-between;
-  align-items: center;
-}
-
-.example-headers-align .mat-form-field + .mat-form-field {
-  margin-left: 8px;
-}
-
 .panel{
   margin: 100px;
 
@@ -38,3 +24,15 @@ button :hover{
 span{
   margin-left: 50px;
 }
+table{
+  width: 80%;
+  margin-top: 100px;
+}
+
+/*table td span{
+  color: blue;
+  width:20px;
+   white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}*/
