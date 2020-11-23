@@ -5,9 +5,10 @@
         </button>
     </div>
     <div class="col-6">
-        <div *ngIf="listOfTask">
-            <h3 style="text-align: center;margin-top: 200px;margin-left: 150px;">There are no tasks to display !!!</h3>
+        <div *ngIf="listOfTask else elseBlock">
+            <h3 style="text-align: center;margin-top: 200px;margin-left: 150px; font-size: x-large; font-weight: bolder;">There are no tasks to display !!!</h3>
         </div>
+        <ng-template #elseBlock><h3 style="text-align: center;margin-top: 30px;margin-left: 150px; font-size: x-large; font-weight: bolder;">List Of Tasks</h3></ng-template>
         <mat-list role="list" >
             <mat-list-item role="listitem" *ngFor="let task of listOfTaskDetails$">
                 <span><mat-checkbox [checked]="task.taskCheck" (change)="checkTask($event,task)"></mat-checkbox>
