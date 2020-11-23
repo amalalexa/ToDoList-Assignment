@@ -84,7 +84,7 @@ export class HomeComponent implements OnInit {
   }
 
   checkTask($event,task:TaskDetails){
-
+     console.log(task)
       task.taskCheck=$event.checked;
       console.log(task);
       this.taskService.updateTask(task).subscribe(res =>{

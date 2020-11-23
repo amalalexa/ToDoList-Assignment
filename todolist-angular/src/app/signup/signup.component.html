@@ -9,7 +9,6 @@
             </mat-form-field>
             <div *ngIf="name.touched && name.invalid">
                 <div *ngIf="name.errors.required">Name required !!!</div>
-                <div *ngIf="name.errors.nameValidation">Name can only contain alphabets !!!</div>
             </div><br/>
             <mat-form-field>
                 <mat-label>Password</mat-label>
@@ -17,7 +16,6 @@
             </mat-form-field>
             <div *ngIf="password.touched && password.invalid">
                 <div *ngIf="password.errors.required">Password required !!!</div>
-                <div *ngIf="password.errors.pattern">Not a valid Password !!!</div>
             </div><br/>
             <button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
             <button mat-raised-button color="primary" [mat-dialog-close]="true" cdkFocusInitial (click)="saveUserDetails(form)">Sign Up</button>

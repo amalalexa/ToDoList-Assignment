@@ -22,11 +22,9 @@ export class SignupComponent implements OnInit {
 
   form = new FormGroup({
     'name':new FormControl('',[
-      Validators.required,
-      Validators.pattern("[a-zA-Z]+")]), //simple validation for name
+      Validators.required]), //simple validation for name
     'password':new FormControl('',[
-      Validators.required,
-      Validators.pattern("[a-zA-Z@_]*") //simple validation for pasword
+      Validators.required //simple validation for pasword
     ])
   });
   get name(){

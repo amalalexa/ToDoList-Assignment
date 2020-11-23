@@ -42,7 +42,7 @@ import com.todolist.view.TaskDetailsView;
 @SpringBootTest(classes = TodolistSpringBootApplication.class)
 @EnableWebMvc
 @AutoConfigureMockMvc
-public class TodolistSpringBootApplicationTests {
+public class TodolistSpringBootApplicationTest {
 	
 	//Creating a MockMvc Bean
 	@Autowired

@@ -20,12 +20,9 @@ export class LoginComponent implements OnInit {
 
   form = new FormGroup({
     'name':new FormControl('',[
-      Validators.required,
-      Validators.pattern("[a-zA-Z0-9]+")]), //simple validation for name
+      Validators.required]), //simple validation for name
     'password':new FormControl('',[
-      Validators.required,
-      Validators.pattern("[a-zA-Z@_0-9]*") //simple validation for pasword
-    ])
+      Validators.required]) //sample validation for password
   });
   get name(){
     return this.form.get('name');
